@@ -1,9 +1,9 @@
 {
     "dependencies": {
-        "chrome-aws-lambda": "^2.0.0",
-        "puppeteer-core": "^2.0.0"
+        "chrome-aws-lambda": "^9.1.0",
+        "puppeteer-core": "^9.1.0"
     },
     "devDependencies": {
-        "serverless-lift": "^1.0"
+        "serverless-lift": "^1.20.2"
     }
 }

@@ -2,6 +2,7 @@ service: pdf-generator
 
 provider:
     name: aws
+    region: eu-west-1
 
 plugins:
     - serverless-lift # https://github.com/getlift/lift
@@ -17,14 +18,14 @@ functions:
         timeout: 20
         memorySize: 2048
         reservedConcurrency: 2
-        runtime: nodejs10.x
+        runtime: nodejs12.x
         events:
             - httpApi: 'GET /pdf'
         environment:
             STORAGE_BUCKET: ${construct:pdf.bucketName}
             # For the demo, only pages from bref.sh can be exported to PDF
             # Feel free to change this in your application
-            DOMAIN_WHITELIST: 'bref.sh'
+            DOMAIN_WHITELIST: 'atoms.studio'
 
 package:
     patterns:
