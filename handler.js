@@ -66,14 +66,16 @@ module.exports.index = async (event, context) => {
         }).promise();
     }
 
+    let s3pdfurl = s3.getSignedUrl('getObject',{
+        Bucket: bucketName,
+        Key: s3Key,
+    })
+
     return {
-        isBase64Encoded: true,
-        statusCode: 200,
-        body: pdf.toString('base64'),
+        statusCode: 301,
         headers: {
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': 'inline; filename="Export.pdf"',
-        },
+            Location: s3pdfurl
+        }
     };
 };
 
@@ -88,7 +90,7 @@ async function createPdf(url) {
             args: chromium.args,
             executablePath: await chromium.executablePath,
             headless: chromium.headless,
-            defaultViewport: {width: 1280, height: 800},
+            defaultViewport: {width: 1280, height: 800, deviceScaleFactor: 2},
         });
 
         const page = await browser.newPage();
@@ -97,8 +99,9 @@ async function createPdf(url) {
         });
 
         return await page.pdf({
-            // width: 1280,
-            printBackground: true,
+            displayHeaderFooter: true,
+            format: 'A4',
+            printBackground: false,
         });
     } finally {
         if (browser) {
