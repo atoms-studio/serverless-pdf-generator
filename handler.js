@@ -72,7 +72,7 @@ module.exports.index = async (event, context) => {
     })
 
     return {
-        statusCode: 301,
+        statusCode: 302,
         headers: {
             Location: s3pdfurl
         }
